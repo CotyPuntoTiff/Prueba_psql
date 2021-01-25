@@ -49,39 +49,53 @@ INSERT INTO clientes(nom_cliente,rut,direccion) VALUES
 ;
 
 INSERT INTO categorias(nom_categoria, descrip_categoria) VALUES
-('Salado', 'descripcion de salado'),
-('dulce', 'descripcion de dulce'),
-('aderezos', 'descripcion de aderezos')
+('instrumentos de percucion', 'en esta categoria encontraras todos los instrumentos de percucion'),
+('instrumentos de cuerda', 'en esta categoria encontraras todos los instrumentos de cuerdas'),
+('instrumentos de viento', 'en esta categoria encontraras todos los instrumentos de viento')
 ;
 
 INSERT INTO facturas(id_cliente, fecha, sub_total, iva, valor_total) VALUES
-(1, '2021-01-25', 1, 1, 3300),
-(4, '2021-01-25', 6, 6, 3000),
-(2, '2021-01-25', 2, 2, 2400),
-(1, '2021-01-25', 3, 3, 3590),
-(4, '2021-01-25', 9, 9, 2400),
-(3, '2021-01-25', 4, 4, 500),
-(2, '2021-01-25', 5, 5, 1800),
-(4, '2021-01-25', 7, 7, 4580),
-(2, '2021-01-25', 8, 8, 3790),
-(4, '2021-01-25', 10, 10, 2000)
+(1, '2021-01-25', 590000, 112100, 702100),
+(4, '2021-01-25', 60000, 11400, 71400),
+(2, '2021-01-25', 15000, 2850, 17850),
+(1, '2021-01-25', 405000, 76950, 481950),
+(4, '2021-01-25', 15000, 2850, 17850),
+(3, '2021-01-25', 20000, 3800, 23800),
+(2, '2021-01-25', 110000, 20900, 130900),
+(4, '2021-01-25', 440000, 83600, 523600),
+(2, '2021-01-25', 265000, 50350, 315350),
+(4, '2021-01-25', 500000, 95000, 595000)
+
 ;
 
 INSERT INTO productos(id_categoria, nom_producto, descrip_producto, valor_unitario) VALUES
-(2, 'chocolate', 'chocolate 100g', 1000),
-(1, 'cheetos', 'cheetos 250g', 1300),
-(2, 'galletas', 'galletas 80g', 800),
-(1, 'papas fritas', 'papasfritas 150g', 1500),
-(3, 'mayonesa', 'mayonesa 500g', 990),
-(2, 'gomitas', 'gomitas 50g', 500),
-(1, 'doritos', 'doritos 1k', 2000),
-(3, 'ketshup', 'ketshup 500g', 1300)
+(2, 'guitarra', 'guitarra acustica', 30000),
+(1, 'bongo', 'bongo color negro', 90000),
+(2, 'bajo ', 'bajo electrico', 70000),
+(1, 'timbales', 'set de dos timbales', 60000),
+(3, 'flauta', 'flauta dulce', 5000),
+(2, 'ukelele', 'ukelele morado', 20000),
+(1, 'bateria', 'bateria yamaha', 500000),
+(3, 'acordeon', 'acordeon hohner', 200000)
 ;
 
 -- Organizado segun el id de cliente
 INSERT INTO lista_productos(num_factura, id_producto, cantidad) VALUES
 (1,2,1), (1,7,1), (4,8,2), (4,5,1),
-(3,3,3), (7,2,1), (7,6,1), (9,8,1), (9,5,1), (9,4,1),
+(3,5,3), (7,2,1), (7,6,1), (9,8,1), (9,5,1), (9,4,1),
 (6,6,1),
-(2,4,2), (5,3,3), (8,8,2), (8,5,2), (10,7,1)
+(2,1,2), (5,3,3), (8,8,2), (8,6,2), (10,7,1)
 ;
+
+-- Consultas 
+
+-- Que cliente realizo la compra mas cara?
+
+SELECT clientes.nom_cliente
+FROM facturas 
+INNER JOIN clientes 
+ON clientes.id_cliente = facturas.id_cliente
+ORDER BY facturas.valor_total DESC LIMIT 1
+;
+
+-- que cliente paso sobre 100 de monto
