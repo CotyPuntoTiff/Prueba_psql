@@ -21,13 +21,13 @@ valor_total INT NOT NULL
 
 CREATE TABLE categorias(
 id_categoria SERIAL PRIMARY KEY,
-nom_categoria VARCHAR(20) NOT NULL UNIQUE,
+nom_categoria VARCHAR(40) NOT NULL UNIQUE,
 descrip_categoria VARCHAR(60) NOT NULL UNIQUE
 );
 
 CREATE TABLE productos(
 id_producto SERIAL PRIMARY KEY,
-nom_producto VARCHAR(20) UNIQUE NOT NULL,
+nom_producto VARCHAR(40) UNIQUE NOT NULL,
 descrip_producto VARCHAR(60) UNIQUE NOT NULL,
 valor_unitario INT NOT NULL,
 id_categoria INT NOT NULL REFERENCES categorias(id_categoria)
@@ -49,9 +49,9 @@ INSERT INTO clientes(nom_cliente,rut,direccion) VALUES
 ;
 
 INSERT INTO categorias(nom_categoria, descrip_categoria) VALUES
-('instrumentos de percucion', 'en esta categoria encontraras todos los instrumentos de percucion'),
-('instrumentos de cuerda', 'en esta categoria encontraras todos los instrumentos de cuerdas'),
-('instrumentos de viento', 'en esta categoria encontraras todos los instrumentos de viento')
+('instrumentos de percucion', 'categoria de instrumentos de percucion'),
+('instrumentos de cuerda', 'categoria de instrumentos de cuerdas'),
+('instrumentos de viento', 'categoria de instrumentos de viento')
 ;
 
 INSERT INTO facturas(id_cliente, fecha, sub_total, iva, valor_total) VALUES
@@ -99,3 +99,21 @@ ORDER BY facturas.valor_total DESC LIMIT 1
 ;
 
 -- que cliente paso sobre 100 de monto
+
+SELECT clientes.nom_cliente
+FROM facturas 
+INNER JOIN clientes 
+ON clientes.id_cliente = facturas.id_cliente
+WHERE facturas.valor_total > 100000
+;
+
+-- cuantos clientes han comprado el producto 6
+
+SELECT COUNT(*)
+FROM clientes 
+INNER JOIN facturas
+ON clientes.id_cliente = facturas.id_cliente
+INNER JOIN lista_productos
+ON lista_productos.num_factura = facturas.num_factura 
+WHERE lista_productos.id_producto = 6
+;
